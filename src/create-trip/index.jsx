@@ -4,6 +4,8 @@ import GooglePlacesAutocomplete from "react-google-places-autocomplete";
 import { Input } from "@/components/ui/input";
 import { SelectBudgetOptions, SelectTravelsList } from "../constants/options";
 import { Button } from "@/components/ui/button";
+import LocationIQAutocomplete from "@/components/LocationIQAutocomplete/LocationIQAutocomplete.jsx";
+
 function CreateTrip() {
   const handlePlaceChange = (value) => {
     console.log("Selected place:", value);
@@ -27,7 +29,7 @@ function CreateTrip() {
             <h2 className="font-medium my-3 text-xl">
               What is your destination choice?
             </h2>
-            <GooglePlacesAutocomplete
+            {/* <GooglePlacesAutocomplete
               apiKey={import.meta.env.VITE_GOOGLE_PLACE_API_KEY}
               selectProps={{
                 place,
@@ -36,7 +38,8 @@ function CreateTrip() {
                   console.log(v);
                 },
               }}
-            />
+            /> */}
+            <LocationIQAutocomplete />
           </div>
 
           <div>
