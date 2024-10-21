@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
-export default function LocationIQAutocomplete() {
+export default function LocationIQAutocomplete({ onSelectLocation }) {
   const [query, setQuery] = useState("");
   const [suggestions, setSuggestions] = useState([]);
   const apiKey = import.meta.env.VITE_LOCATIONIQ_API_KEY;
@@ -44,18 +44,24 @@ export default function LocationIQAutocomplete() {
 
   const handleSuggestionClick = (place) => {
     console.log("Selected Place: ", place.display_name);
-    setQuery(place.display_name); // Set the clicked place in the input field
+    const locationName = place.display_name.split(",")[0]; // Extract location name
+    setQuery(locationName);
     setSuggestions([]); // Clear suggestions after selection
+
+    // Pass selected location back to parent component
+    if (onSelectLocation) {
+      onSelectLocation(place); // Pass the entire place object or just the name as needed
+    }
   };
 
   return (
-    <div>
+    <div className="w-full">
       <input
         type="text"
         value={query}
         onChange={handleInputChange}
         placeholder="Search for a location"
-        className="border p-2 rounded"
+        className="border p-2 rounded w-full"
       />
 
       {/* Display error message */}
@@ -67,8 +73,8 @@ export default function LocationIQAutocomplete() {
           {suggestions.map((suggestion) => (
             <li
               key={suggestion.place_id}
-              className="cursor-pointer p-2"
-              onClick={() => handleSuggestionClick(suggestion)} // Log the clicked suggestion
+              className="cursor-pointer p-2 hover:bg-gray-200"
+              onClick={() => handleSuggestionClick(suggestion)}
             >
               {suggestion.display_name}
             </li>
